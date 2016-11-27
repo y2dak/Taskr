@@ -2,10 +2,6 @@ package com.taskr.taskr.models;
 
 import java.util.ArrayList;
 
-/**
- * Created by yatinkaushal on 11/27/16.
- */
-
 public class Schedule {
     private String name;
     private ArrayList<Task> taskList = new ArrayList<>();

@@ -3,10 +3,6 @@ package com.taskr.taskr.models;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by yatinkaushal on 11/27/16.
- */
-
 public class Database {
     private ArrayList<Task> taskList = new ArrayList<>();
     private ArrayList<Schedule> schedList = new ArrayList<>();
@@ -51,9 +47,7 @@ public class Database {
         return taskList.get(tasknum).getPriority();
     }
     
-    public void getTaskCompletion( int tasknum ) {
-        return taskList.get( tasknum ).getCompletion();
-    }
+    public float getTaskCompletion( int tasknum ) { return taskList.get(tasknum).getCompletion(); }
 
     public String getTaskNotes(int tasknum) {
         return taskList.get(tasknum).getNotes();
