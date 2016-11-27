@@ -24,19 +24,19 @@ public class Brain {
     }
 
     private double getDesirabilityContribution(Task t) {
-        if(t.getFiller()) return -1.0;
+        if(t.getManual()) return -1.0;
         final float desMul = 1.0f;
         final float desExp = 1.0f;
         return Math.pow(desMul * desWeight * t.getDesirability(),desExp);
     }
     private double getImportanceContribution(Task t) {
-        if(t.getFiller()) return -1.0;
+        if(t.getManual()) return -1.0;
         final float impMul = 1.0f;
         final float impExp = 1.0f;
         return Math.pow(impMul * impWeight * t.getImportance(),impExp);
     }
     private double getTimeContribution(Task t, float availability) {
-        if(t.getFiller()) return -1.0;
+        if(t.getManual()) return -1.0;
         final float timeMul = 1.0f;
         final float timeExp = 1.0f;
         return Math.pow(timeMul * timeNeeded(t) * durWeight / (timeRemaining(t) * urgWeight / availability) ,timeExp);
@@ -44,7 +44,7 @@ public class Brain {
 
     private float getPriority(int index, ArrayList<Task> tasks) {
         Task t = tasks.get(index);
-        if(t.getFiller()) return Float.MAX_VALUE;
+        if(t.getManual()) return Float.MAX_VALUE;
 
         return (float)(
                 getDesirabilityContribution(t) *
