@@ -28,13 +28,13 @@ public class Brain {
 
         Task t = tasks.get(index);
 
-        return Math.pow(desMul * desWeight * t.getDesirability(),desExp)
+        return (float) (Math.pow(desMul * desWeight * t.getDesirability(),desExp)
                 * Math.pow(impMul * impWeight * t.getImportance(),impExp)
                 * Math.pow(timeMul * (1.0f - t.getCompletion()) * t.getDuration() * durWeight
                 / (
                 (((float)(t.getUrgency().getTime() - new Date().getTime()))/(60.0f*60.0f*1000.0f)) * urgWeight
                 / getTimeAvailability(index, tasks)
-                ),timeExp);
+                ),timeExp));
     }
 
     public float getTimeAvailability(int index, ArrayList<Task> tasks)
