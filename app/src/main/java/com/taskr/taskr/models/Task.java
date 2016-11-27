@@ -118,7 +118,7 @@ public class Task implements Parcelable {
     }
 
     public boolean areEqual(Task task2) {
-        if (getName() == task2.getName() &&
+         return getName().equals(task2.getName()) &&
                 getStart() == task2.getStart() &&
                 getDuration() == task2.getDuration() &&
                 getDesirability() == task2.getDesirability() &&
@@ -127,11 +127,7 @@ public class Task implements Parcelable {
                 getFiller() == task2.getFiller() &&
                 getPriority() == task2.getPriority() &&
                 getCompletion() == task2.getCompletion() &&
-                getNotes() == task2.getNotes() ) {
-            return true;
-        }
-        return false;
-    }
+                getNotes().equals(task2.getNotes());
 
     protected Task(Parcel in) {
         name = in.readString();
