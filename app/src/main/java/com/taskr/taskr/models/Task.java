@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Created by yatinkaushal on 11/27/16.
+   Edited  by fxm84625     on 11/27/16    3:44 PM
  */
 
 public class Task implements Parcelable {
@@ -106,16 +107,16 @@ public class Task implements Parcelable {
         notes = text;
     }
 
-    public boolean areEqual(Task task1, Task task2) {
-        if (task1.getName() == task2.getName() &&
-                task1.getStart() == task2.getStart() &&
-                task1.getDuration() == task2.getDuration() &&
-                task1.getDesirability() == task2.getDesirability() &&
-                task1.getUrgency() == task2.getUrgency() &&
-                task1.getImportance() == task2.getImportance() &&
-                task1.getFiller() == task2.getFiller() &&
-                task1.getPriority() == task2.getPriority() &&
-                task1.getNotes() == task2.getNotes()) {
+    public boolean areEqual(Task task2) {
+        if (getName() == task2.getName() &&
+                getStart() == task2.getStart() &&
+                getDuration() == task2.getDuration() &&
+                getDesirability() == task2.getDesirability() &&
+                getUrgency() == task2.getUrgency() &&
+                getImportance() == task2.getImportance() &&
+                getFiller() == task2.getFiller() &&
+                getPriority() == task2.getPriority() &&
+                getNotes() == task2.getNotes()) {
             return true;
         }
         return false;
