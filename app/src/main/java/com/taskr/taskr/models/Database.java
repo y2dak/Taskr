@@ -50,6 +50,10 @@ public class Database {
     public float getTaskPriority(int tasknum) {
         return taskList.get(tasknum).getPriority();
     }
+    
+    public void getTaskCompletion( int tasknum ) {
+        return taskList.get( tasknum ).getCompletion();
+    }
 
     public String getTaskNotes(int tasknum) {
         return taskList.get(tasknum).getNotes();
@@ -86,7 +90,11 @@ public class Database {
     public void setTaskPriority(int tasknum, float value) {
         taskList.get(tasknum).setPriority(value);
     }
-
+    
+    public void setTaskCompletion( int tasknum, float value ) {
+        taskList.get( tasknum ).setCompletion( value );
+    }
+    
     public void setTaskNote(int tasknum, String text) {
         taskList.get(tasknum).setNote(text);
     }
