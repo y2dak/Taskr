@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_add_task"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.taskr.taskr.AddTaskActivity"
+    tools:showIn="@layout/activity_add_task">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:text="Importance: 5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskImportanceHeading"
+        android:padding="6dp"
+        android:layout_below="@+id/taskTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="18sp" />
+
+    <SeekBar
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:id="@+id/taskImportance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task priority"
+        android:padding="15dp"
+        android:layout_below="@+id/taskImportanceHeading"
+        android:max="9"
+        android:progress="4" />
+
+
+        <EditText
+        android:id="@+id/taskTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hours Needed To Complete"
+        android:textColorHint="@android:color/darker_gray"
+        android:layout_below="@+id/taskName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:inputType="number"/>
+
+
+    <TextView
+        android:text="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateTxt"
+        android:padding="7dp"
+        android:gravity="center_horizontal"
+        android:layout_alignBaseline="@+id/dateBtn"
+        android:layout_alignBottom="@+id/dateBtn"
+        android:layout_toRightOf="@+id/dateBtn"
+        android:layout_toEndOf="@+id/dateBtn" />
+
+    <TextView
+        android:text="Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeTxt"
+        android:padding="7dp"
+        android:gravity="center_horizontal"
+        android:layout_alignBaseline="@+id/timebtn"
+        android:layout_alignBottom="@+id/timebtn"
+        android:layout_toLeftOf="@+id/timebtn"
+        android:layout_toStartOf="@+id/timebtn" />
+
+    <SeekBar
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:id="@+id/taskDesirability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task priority"
+        android:padding="15dp"
+        android:max="9"
+        android:progress="4"
+        android:layout_below="@+id/taskDesirabilityHeading"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Set DATE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateBtn"
+        android:layout_below="@+id/switch1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Set Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timebtn"
+        android:layout_below="@+id/switch1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:id="@+id/taskName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task name"
+        android:textColorHint="@android:color/darker_gray"
+        android:singleLine="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+        <TextView
+        android:text="Urgency:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskUrgencyHeading"
+        android:padding="6dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/taskDesirability"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:padding="10dp"
+        android:layout_alignBaseline="@+id/switch1"
+        android:layout_alignBottom="@+id/switch1"
+        android:layout_toRightOf="@+id/switch1"
+        android:layout_toEndOf="@+id/switch1"
+        android:visibility="gone" />
+
+    <Switch
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switch1"
+        android:padding="10dp"
+        android:layout_below="@+id/taskUrgencyHeading"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:text="Date/Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:padding="10dp"
+        android:layout_alignBaseline="@+id/switch1"
+        android:layout_alignBottom="@+id/switch1"
+        android:layout_toLeftOf="@+id/switch1"
+        android:layout_toStartOf="@+id/switch1"
+        android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/notes"
+            android:hint="Notes"
+            android:inputType="textMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dateBtn"
+            android:minHeight="45dp" />
+
+        <TextView
+            android:text="Desirability: 5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/taskDesirabilityHeading"
+            android:padding="6dp"
+            android:textSize="18sp"
+            android:layout_below="@+id/taskImportance"
+            android:layout_toRightOf="@+id/textView6"
+            android:layout_toEndOf="@+id/textView6" />
+
+        <CheckBox
+            android:text="Filler Task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox"
+            android:layout_below="@+id/taskDesirability"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <SeekBar
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:id="@+id/taskUrgency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Task Urgency"
+            android:padding="15dp"
+            android:max="9"
+            android:visibility="invisible"
+            android:progress="4"
+            android:layout_below="@+id/taskUrgencyHeading"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</ScrollView>
