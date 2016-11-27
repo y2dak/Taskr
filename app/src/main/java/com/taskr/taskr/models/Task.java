@@ -19,19 +19,21 @@ public class Task implements Parcelable {
     private float importance;
     private boolean filler;
     private float priority;
+    private float completion;
     private String notes;
 
     public Task() {
 
     }
 
-    public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean filler, final String notes) {
+    public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean filler, final float completion, final String notes) {
         this.name = name;
         this.duration = duration;
         this.desirability = desirability;
         this.urgency = urgency;
         this.importance = importance;
         this.filler = filler;
+        this.completion = completion;
         this.notes = notes;
     }
 
@@ -67,6 +69,10 @@ public class Task implements Parcelable {
         return priority;
     }
 
+    public float getCompletion() {
+        return completion;
+    }
+   
     public String getNotes() {
         return notes;
     }
@@ -99,16 +105,20 @@ public class Task implements Parcelable {
         filler = flag;
     }
 
-    public void setPriority(float num) {
-        priority = num;
+    public void setPriority(float value) {
+        priority = value;
     }
+   
+    public void setCompletion(float value) {
+        completion = value;
+    }   
 
     public void setNote(String text) {
         notes = text;
     }
 
     public boolean areEqual(Task task2) {
-        if (getName() == task2.getName() &&
+         return getName().equals(task2.getName()) &&
                 getStart() == task2.getStart() &&
                 getDuration() == task2.getDuration() &&
                 getDesirability() == task2.getDesirability() &&
@@ -116,11 +126,8 @@ public class Task implements Parcelable {
                 getImportance() == task2.getImportance() &&
                 getFiller() == task2.getFiller() &&
                 getPriority() == task2.getPriority() &&
-                getNotes() == task2.getNotes()) {
-            return true;
-        }
-        return false;
-    }
+                getCompletion() == task2.getCompletion() &&
+                getNotes().equals(task2.getNotes());
 
     protected Task(Parcel in) {
         name = in.readString();
@@ -132,9 +139,23 @@ public class Task implements Parcelable {
         importance = in.readFloat();
         filler = in.readByte() != 0x00;
         priority = in.readFloat();
+        completion = in.readFloat();
         notes = in.readString();
     }
 
+    Task() {
+        name = "";
+        start = 0.0f;
+        duration = 0.0f;
+        desirability = 0.0f;
+        urgency = new Date();
+        importance = 0.0f;
+        filler = false;
+        priority = 0.0f;
+        completion = 0.0f;
+        notes = "";
+    }
+       
     @Override
     public int describeContents() {
         return 0;
@@ -150,6 +171,7 @@ public class Task implements Parcelable {
         dest.writeFloat(importance);
         dest.writeByte((byte) (filler ? 0x01 : 0x00));
         dest.writeFloat(priority);
+        dest.writeFloat(completion);
         dest.writeString(notes);
     }
 
