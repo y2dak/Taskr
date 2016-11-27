@@ -2,13 +2,7 @@ package com.taskr.taskr.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.Date;
-
-/**
- * Created by yatinkaushal on 11/27/16.
-   Edited  by fxm84625     on 11/27/16    3:44 PM
- */
 
 public class Task implements Parcelable {
     private String name;
@@ -23,7 +17,16 @@ public class Task implements Parcelable {
     private String notes;
 
     public Task() {
-
+        name = "";
+        start = 0.0f;
+        duration = 0.0f;
+        desirability = 0.0f;
+        urgency = new Date();
+        importance = 0.0f;
+        filler = false;
+        priority = 0.0f;
+        completion = 0.0f;
+        notes = "";
     }
 
     public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean filler, final float completion, final String notes) {
@@ -69,9 +72,7 @@ public class Task implements Parcelable {
         return priority;
     }
 
-    public float getCompletion() {
-        return completion;
-    }
+    public float getCompletion() { return completion; }
    
     public String getNotes() {
         return notes;
@@ -118,7 +119,7 @@ public class Task implements Parcelable {
     }
 
     public boolean areEqual(Task task2) {
-         return getName().equals(task2.getName()) &&
+        return getName().equals(task2.getName()) &&
                 getStart() == task2.getStart() &&
                 getDuration() == task2.getDuration() &&
                 getDesirability() == task2.getDesirability() &&
@@ -128,8 +129,9 @@ public class Task implements Parcelable {
                 getPriority() == task2.getPriority() &&
                 getCompletion() == task2.getCompletion() &&
                 getNotes().equals(task2.getNotes());
+    }
 
-    protected Task(Parcel in) {
+    Task(Parcel in) {
         name = in.readString();
         start = in.readFloat();
         duration = in.readFloat();
@@ -142,7 +144,7 @@ public class Task implements Parcelable {
         completion = in.readFloat();
         notes = in.readString();
     }
-       
+
     @Override
     public int describeContents() {
         return 0;
@@ -163,7 +165,7 @@ public class Task implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+    final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
         @Override
         public Task createFromParcel(Parcel in) {
             return new Task(in);
