@@ -5,11 +5,10 @@ package com.taskr.taskr.models;
  */
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 public class Brain {
     private float desWeight;
@@ -17,40 +16,53 @@ public class Brain {
     private float durWeight;
     private float urgWeight;
 
-    public float getPriority(int index, ArrayList<Task> tasks)
-    {
-        final float desMul = 1.0f;
-        final float desExp = 1.0f;
-        final float impMul = 1.0f;
-        final float impExp = 1.0f;
-        final float timeMul = 1.0f;
-        final float timeExp = 1.0f;
-
-        Task t = tasks.get(index);
-
-        return (float) (Math.pow(desMul * desWeight * t.getDesirability(),desExp)
-                * Math.pow(impMul * impWeight * t.getImportance(),impExp)
-                * Math.pow(timeMul * (1.0f - t.getCompletion()) * t.getDuration() * durWeight
-                / (
-                (((float)(t.getUrgency().getTime() - new Date().getTime()))/(60.0f*60.0f*1000.0f)) * urgWeight
-                / getTimeAvailability(index, tasks)
-                ),timeExp));
+    private float timeRemaining(Task t) {
+        return (float) (((double)(t.getUrgency().getTime() - new Date().getTime()))/(60.0*60.0*1000.0));
+    }
+    private float timeNeeded(Task t) {
+        return (1.0f - t.getCompletion()) * t.getDuration();
     }
 
-    public float getTimeAvailability(int index, ArrayList<Task> tasks)
-    {
-        float total = 0.0f;
+    private double getDesirabilityContribution(Task t) {
+        if(t.getManual()) return -1.0;
+        final float desMul = 1.0f;
+        final float desExp = 1.0f;
+        return Math.pow(desMul * desWeight * t.getDesirability(),desExp);
+    }
+    private double getImportanceContribution(Task t) {
+        if(t.getManual()) return -1.0;
+        final float impMul = 1.0f;
+        final float impExp = 1.0f;
+        return Math.pow(impMul * impWeight * t.getImportance(),impExp);
+    }
+    private double getTimeContribution(Task t, float availability) {
+        if(t.getManual()) return -1.0;
+        final float timeMul = 1.0f;
+        final float timeExp = 1.0f;
+        return Math.pow(timeMul * timeNeeded(t) * durWeight / (timeRemaining(t) * urgWeight / availability) ,timeExp);
+    }
+
+    private float getPriority(int index, ArrayList<Task> tasks) {
+        Task t = tasks.get(index);
+        if(t.getManual()) return Float.MAX_VALUE;
+
+        return (float)(
+                getDesirabilityContribution(t) *
+                getImportanceContribution(t) *
+                getTimeContribution(t, getTimeAvailability(index, tasks))
+        );
+    }
+
+    private float getTimeAvailability(int index, ArrayList<Task> tasks) {
+        float totalOccupancy = 0.0f;
         ArrayList<Task> tasklist = new ArrayList(tasks);
-        long cTime = new Date().getTime();
         Collections.sort(tasklist, new Comparator<Task>() {
             @Override
-            public int compare(Task o1, Task o2) {
-                return o1.getUrgency().compareTo(o2.getUrgency());
-            }
+            public int compare(Task o1, Task o2) { return o1.getUrgency().compareTo(o2.getUrgency()); }
         });
         List<Task> tlist = tasklist.subList(0, index);
-        for(Task t : tasklist) { total += (1.0f - t.getCompletion()) * t.getDuration(); }
+        for(Task t : tasklist) { totalOccupancy += timeNeeded(t); }
 
-        return total;
+        return timeRemaining(tasks.get(index)) - totalOccupancy;
     }
 }
