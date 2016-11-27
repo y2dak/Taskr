@@ -142,19 +142,6 @@ public class Task implements Parcelable {
         completion = in.readFloat();
         notes = in.readString();
     }
-
-    Task() {
-        name = "";
-        start = 0.0f;
-        duration = 0.0f;
-        desirability = 0.0f;
-        urgency = new Date();
-        importance = 0.0f;
-        filler = false;
-        priority = 0.0f;
-        completion = 0.0f;
-        notes = "";
-    }
        
     @Override
     public int describeContents() {
