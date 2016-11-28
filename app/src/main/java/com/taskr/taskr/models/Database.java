@@ -62,6 +62,7 @@ public class Database {
     public void createTask() {
         taskList.add(new Task());
     }
+    public void addTask( Task task ) { taskList.add( task ); }
 
     public Schedule getSchedule(int schednum) {
         return schedList.get(schednum);
@@ -103,4 +104,5 @@ public class Database {
     public void createSched() {
         schedList.add(new Schedule());
     }
+    public void addSched( Schedule sched ) { schedList.add( sched ); }
 }
