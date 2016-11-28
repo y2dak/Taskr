@@ -2,6 +2,7 @@ package com.taskr.taskr;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.taskr.taskr.models.Database;
 import com.taskr.taskr.models.Task;
 
 import java.util.Date;
@@ -147,7 +149,11 @@ public class AddTaskActivity extends AppCompatActivity {
                         Snackbar.make(view, "Cannot leave field(s) empty", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
                     } else {
-//                        Task task = new Task(taskName.getText().toString(), Float.valueOf(hoursNeeded.getText().toString()), Float.valueOf(desirabilityBar.getProgress()), new Date(month, day, year, hour, minute), Float.valueOf(importanceBar.getProgress()), false, Float.valueOf(0), notes.getText().toString());
+                        Task task = new Task(taskName.getText().toString(), new Date(month, day, year, hour, minute), new Date(endMonth, endDay, endYear, endHour, endMinute), true, Float.valueOf(0), notes.getText().toString());
+                        Intent intent = new Intent();
+                        intent.putExtra(Globals.TASK, task);
+                        setResult(Globals.RESULT_TASK_CREATED, intent);
+                        finish();
                     }
                 } else {
                     Snackbar.make(view, "Automatic", Snackbar.LENGTH_SHORT)
@@ -160,7 +166,11 @@ public class AddTaskActivity extends AppCompatActivity {
                         Snackbar.make(view, "Cannot leave field(s) empty", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
                     } else {
-//                        Task task = new Task(taskName.getText().toString(), Float.valueOf(hoursNeeded.getText().toString()), Float.valueOf(desirabilityBar.getProgress()), new Date(month, day, year, hour, minute), Float.valueOf(importanceBar.getProgress()), false, Float.valueOf(0), notes.getText().toString());
+                        Task task = new Task(taskName.getText().toString(), Float.valueOf(hoursNeeded.getText().toString()), Float.valueOf(desirabilityBar.getProgress()), new Date(month, day, year, hour, minute), Float.valueOf(importanceBar.getProgress()), false, Float.valueOf(0), notes.getText().toString());
+                        Intent intent = new Intent();
+                        intent.putExtra(Globals.TASK, task);
+                        setResult(Globals.RESULT_TASK_CREATED, intent);
+                        finish();
                     }
                 }
 

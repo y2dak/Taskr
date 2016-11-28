@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class Task implements Parcelable {
     private String name;
+    private Date startDate;
+    private Date endDate;
     private float start;
     private float duration;
     private float desirability;
@@ -35,6 +37,15 @@ public class Task implements Parcelable {
         this.desirability = desirability;
         this.urgency = urgency;
         this.importance = importance;
+        this.manual = manual;
+        this.completion = completion;
+        this.notes = notes;
+    }
+
+    public Task(String name, Date startDate, Date endDate, boolean manual, Float completion, String notes) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
@@ -146,7 +157,7 @@ public class Task implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+    final static Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
         @Override
         public Task createFromParcel(Parcel in) {
             return new Task(in);
