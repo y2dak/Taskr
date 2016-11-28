@@ -1,8 +1,6 @@
 package com.taskr.taskr;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,23 +19,26 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.taskr.taskr.fragments.BlankFragment;
-import com.taskr.taskr.fragments.DayFragment;
+import com.taskr.taskr.fragments.TaskFragment;
+import com.taskr.taskr.models.Database;
 import com.taskr.taskr.models.DummyContent;
 import com.taskr.taskr.models.Task;
 
 import static com.taskr.taskr.Globals.RC_SIGN_IN;
 import static com.taskr.taskr.Globals.RESULT_TASK_CREATED;
+import static com.taskr.taskr.Globals.TASK;
 
-public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener, DayFragment.OnListFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener, TaskFragment.OnListFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
     ViewPager mViewPager;
     MyPageAdapter myPageAdapter;
     private GoogleApiClient mGoogleApiClient;
     private final static String TAG = "MainActivity";
+    private Database database = new Database();
+    private TaskFragment taskFragment;
 
 
     @Override
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         myPageAdapter = new MyPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myPageAdapter);
+        taskFragment = new TaskFragment();
+        taskFragment.setMainActivity(this);
 
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestEmail()
@@ -96,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         }
         if (requestCode == 1) {
             if (resultCode == RESULT_TASK_CREATED) {
-                Task task = data.getParcelableExtra("task");
+                Task task = data.getParcelableExtra(TASK);
+                database.addTask(task);
+                taskFragment.updateTasks();
             }
         }
     }
@@ -113,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
+    }
+
+    public Database getDatabase() {
+        return database;
     }
 
     @Override
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new DayFragment();
+                    return taskFragment;
                 default:
                     return new BlankFragment();
             }
