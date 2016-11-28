@@ -16,196 +16,252 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <TextView
-        android:text="Importance: 5"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/taskImportanceHeading"
-        android:padding="6dp"
-        android:layout_below="@+id/taskTime"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="18sp" />
+        android:animateLayoutChanges="false">
 
-    <SeekBar
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:id="@+id/taskImportance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Task priority"
-        android:padding="15dp"
-        android:layout_below="@+id/taskImportanceHeading"
-        android:max="9"
-        android:progress="4" />
+        <TextView
+            android:id="@+id/taskImportanceHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/taskTime"
+            android:padding="6dp"
+            android:text="Importance: 5"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/taskImportance"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/taskImportanceHeading"
+            android:hint="Task priority"
+            android:max="9"
+            android:padding="15dp"
+            android:progress="4" />
 
 
         <EditText
-        android:id="@+id/taskTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hours Needed To Complete"
-        android:textColorHint="@android:color/darker_gray"
-        android:layout_below="@+id/taskName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:inputType="number"/>
+            android:id="@+id/taskTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/taskName"
+            android:hint="Hours Needed To Complete"
+            android:inputType="number"
+            android:textColorHint="@android:color/darker_gray" />
 
 
-    <TextView
-        android:text="Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dateTxt"
-        android:padding="7dp"
-        android:gravity="center_horizontal"
-        android:layout_alignBaseline="@+id/dateBtn"
-        android:layout_alignBottom="@+id/dateBtn"
-        android:layout_toRightOf="@+id/dateBtn"
-        android:layout_toEndOf="@+id/dateBtn" />
+        <SeekBar
+            android:id="@+id/taskDesirability"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/taskDesirabilityHeading"
+            android:hint="Task priority"
+            android:max="9"
+            android:padding="15dp"
+            android:progress="4" />
 
-    <TextView
-        android:text="Time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/timeTxt"
-        android:padding="7dp"
-        android:gravity="center_horizontal"
-        android:layout_alignBaseline="@+id/timebtn"
-        android:layout_alignBottom="@+id/timebtn"
-        android:layout_toLeftOf="@+id/timebtn"
-        android:layout_toStartOf="@+id/timebtn" />
-
-    <SeekBar
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:id="@+id/taskDesirability"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Task priority"
-        android:padding="15dp"
-        android:max="9"
-        android:progress="4"
-        android:layout_below="@+id/taskDesirabilityHeading"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Set DATE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dateBtn"
-        android:layout_below="@+id/switch1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Set Time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/timebtn"
-        android:layout_below="@+id/switch1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:id="@+id/taskName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Task name"
-        android:textColorHint="@android:color/darker_gray"
-        android:singleLine="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:id="@+id/timebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/taskUrgencyHeading"
+            android:text="Set Time" />
 
         <TextView
-        android:text="Urgency:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/taskUrgencyHeading"
-        android:padding="6dp"
-        android:textSize="18sp"
-        android:layout_below="@+id/taskDesirability"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/switch1"
+            android:layout_alignBottom="@+id/switch1"
+            android:layout_toEndOf="@+id/switch1"
+            android:layout_toRightOf="@+id/switch1"
+            android:padding="10dp"
+            android:text="Value"
+            android:visibility="gone" />
 
-    <TextView
-        android:text="Value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:padding="10dp"
-        android:layout_alignBaseline="@+id/switch1"
-        android:layout_alignBottom="@+id/switch1"
-        android:layout_toRightOf="@+id/switch1"
-        android:layout_toEndOf="@+id/switch1"
-        android:visibility="gone" />
-
-    <Switch
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switch1"
-        android:padding="10dp"
-        android:layout_below="@+id/taskUrgencyHeading"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone" />
-
-    <TextView
-        android:text="Date/Time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:padding="10dp"
-        android:layout_alignBaseline="@+id/switch1"
-        android:layout_alignBottom="@+id/switch1"
-        android:layout_toLeftOf="@+id/switch1"
-        android:layout_toStartOf="@+id/switch1"
-        android:visibility="gone" />
 
         <EditText
             android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/endDateBtn"
             android:hint="Notes"
             android:inputType="textMultiLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dateBtn"
             android:minHeight="45dp" />
 
-        <TextView
-            android:text="Desirability: 5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/taskDesirabilityHeading"
-            android:padding="6dp"
-            android:textSize="18sp"
-            android:layout_below="@+id/taskImportance"
-            android:layout_toRightOf="@+id/textView6"
-            android:layout_toEndOf="@+id/textView6" />
-
         <CheckBox
-            android:text="Filler Task"
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox"
-            android:layout_below="@+id/taskDesirability"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/taskDesirability"
+            android:text="Filler Task"
+            android:visibility="invisible" />
 
-        <SeekBar
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:id="@+id/taskUrgency"
+        <EditText
+            android:id="@+id/taskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Task Urgency"
-            android:padding="15dp"
-            android:max="9"
-            android:visibility="invisible"
-            android:progress="4"
-            android:layout_below="@+id/taskUrgencyHeading"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/switch1"
+            android:hint="Task name"
+            android:singleLine="true"
+            android:textColorHint="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/taskDesirabilityHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/taskImportance"
+            android:padding="6dp"
+            android:text="Desirability: 5"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/switch1"
+            android:layout_alignBottom="@+id/switch1"
+            android:layout_toEndOf="@+id/switch1"
+            android:layout_toRightOf="@+id/switch1"
+            android:text="Manual" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/switch1"
+            android:layout_alignBottom="@+id/switch1"
+            android:layout_toLeftOf="@+id/switch1"
+            android:layout_toStartOf="@+id/switch1"
+            android:text="Automatic" />
+
+        <Button
+            android:id="@+id/dateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/taskUrgencyHeading"
+            android:text="Set DATE" />
+
+        <TextView
+            android:id="@+id/dateTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/dateBtn"
+            android:layout_alignBottom="@+id/dateBtn"
+            android:layout_toEndOf="@+id/dateBtn"
+            android:layout_toRightOf="@+id/dateBtn"
+            android:gravity="center_horizontal"
+            android:padding="7dp"
+            android:text="Date" />
+
+        <TextView
+            android:id="@+id/taskUrgencyHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/taskDesirability"
+            android:padding="6dp"
+            android:text="Deadline:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/timeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/timebtn"
+            android:layout_alignBottom="@+id/timebtn"
+            android:layout_toLeftOf="@+id/timebtn"
+            android:layout_toStartOf="@+id/timebtn"
+            android:gravity="center_horizontal"
+            android:padding="7dp"
+            android:text="Time" />
+
+
+        <Button
+            android:id="@+id/endDateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/endTimeTxt"
+            android:text="Set Date"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/endDateBtn"
+            android:layout_alignBottom="@+id/endDateBtn"
+            android:layout_toEndOf="@+id/endDateBtn"
+            android:layout_toRightOf="@+id/endDateBtn"
+            android:gravity="center_horizontal"
+            android:padding="7dp"
+            android:text="Date"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/endTimeBtn"
+            android:layout_alignBottom="@+id/endTimeBtn"
+            android:layout_toLeftOf="@+id/endTimeBtn"
+            android:layout_toStartOf="@+id/endTimeBtn"
+            android:gravity="center_horizontal"
+            android:padding="7dp"
+            android:text="Time"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/endTimeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/endTimeTxt"
+            android:text="Set Time"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/endTimeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dateBtn"
+            android:padding="6dp"
+            android:text="End Time:"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
 
     </RelativeLayout>
 
