@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     private GoogleApiClient mGoogleApiClient;
     private final static String TAG = "MainActivity";
     private Database database = new Database();
-    private TaskFragment taskFragment;
+    private TaskFragment autoFragment;
+    private TaskFragment manualFragment;
 
 
     @Override
@@ -51,8 +52,10 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         myPageAdapter = new MyPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myPageAdapter);
-        taskFragment = new TaskFragment();
-        taskFragment.setMainActivity(this);
+        autoFragment = new TaskFragment();
+        manualFragment = new TaskFragment();
+        autoFragment.initialize(this, false);
+        manualFragment.initialize(this, true);
 
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestEmail()
@@ -101,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
             if (resultCode == RESULT_TASK_CREATED) {
                 Task task = data.getParcelableExtra(TASK);
                 database.addTask(task);
-                taskFragment.updateTasks();
+                autoFragment.updateTasks();
+                manualFragment.updateTasks();
             }
         }
     }
@@ -149,7 +153,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return taskFragment;
+                    return autoFragment;
+                case 1:
+                    return manualFragment;
                 default:
                     return new BlankFragment();
             }
@@ -157,14 +163,16 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "My Tasks";
+                    return "Automatic Tasks";
+                case 1:
+                    return "Manual Tasks";
                  default:
                     return "My Schedules";
             }

@@ -99,10 +99,11 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DatePicker dp = (DatePicker) dateView.findViewById(R.id.datePicker);
-                        endMonth = dp.getMonth()+1;
+                        endMonth = dp.getMonth();
+                        int tempMonth = endMonth + 1;
                         endDay = dp.getDayOfMonth();
                         endYear = dp.getYear();
-                        endDateStr = endMonth + "/" + dp.getDayOfMonth() + "/" + dp.getYear();
+                        endDateStr = tempMonth + "/" + dp.getDayOfMonth() + "/" + dp.getYear();
                         endDate.setText(endDateStr);
 
                     }
@@ -149,11 +150,25 @@ public class AddTaskActivity extends AppCompatActivity {
                         Snackbar.make(view, "Cannot leave field(s) empty", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
                     } else {
-                        Task task = new Task(taskName.getText().toString(), new Date(month, day, year, hour, minute), new Date(endMonth, endDay, endYear, endHour, endMinute), true, Float.valueOf(0), notes.getText().toString());
-                        Intent intent = new Intent();
-                        intent.putExtra(Globals.TASK, task);
-                        setResult(Globals.RESULT_TASK_CREATED, intent);
-                        finish();
+                        Date currDate = new Date();
+                        Date startDate = new Date(year-1900, month, day, hour, minute);
+                        Date endDate = new Date(endYear-1900, endMonth, endDay, endHour, endMinute);
+                        System.out.println("startDate.getTime(): " + startDate.getTime());
+                        System.out.println("currDate.getTime(): " + currDate.getTime());
+                        System.out.println("endDate.getTime(): " + endDate.getTime());
+                        System.out.println("startDate.toString(): " + startDate.toString());
+                        System.out.println("currDate.toString(): " + currDate.toString());
+                        System.out.println("endDate.toString(): " + endDate.toString());
+                        if (endDate.getTime() - startDate.getTime() <= 0 || startDate.getTime() - currDate.getTime() <= 0) {
+                            Snackbar.make(view, "Invalid date range", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        } else {
+                            Task task = new Task(taskName.getText().toString(), startDate, endDate, true, Float.valueOf(0), notes.getText().toString());
+                            Intent intent = new Intent();
+                            intent.putExtra(Globals.TASK, task);
+                            setResult(Globals.RESULT_TASK_CREATED, intent);
+                            finish();
+                        }
                     }
                 } else {
                     Snackbar.make(view, "Automatic", Snackbar.LENGTH_SHORT)
@@ -166,11 +181,22 @@ public class AddTaskActivity extends AppCompatActivity {
                         Snackbar.make(view, "Cannot leave field(s) empty", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
                     } else {
-                        Task task = new Task(taskName.getText().toString(), Float.valueOf(hoursNeeded.getText().toString()), Float.valueOf(desirabilityBar.getProgress()), new Date(month, day, year, hour, minute), Float.valueOf(importanceBar.getProgress()), false, Float.valueOf(0), notes.getText().toString());
-                        Intent intent = new Intent();
-                        intent.putExtra(Globals.TASK, task);
-                        setResult(Globals.RESULT_TASK_CREATED, intent);
-                        finish();
+                        Date currDate = new Date();
+                        Date urgency = new Date(year-1900, month, day, hour, minute);
+                        System.out.println("urgency.getTime(): " + urgency.getTime());
+                        System.out.println("currDate.getTime(): " + currDate.getTime());
+                        System.out.println("urgency.toString(): " + urgency.toString());
+                        System.out.println("currDate.toString(): " + currDate.toString());
+                        if (urgency.getTime() - currDate.getTime() <= 0) {
+                            Snackbar.make(view, "Invalid date", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        } else {
+                            Task task = new Task(taskName.getText().toString(), Float.valueOf(hoursNeeded.getText().toString()), Float.valueOf(desirabilityBar.getProgress()), urgency, Float.valueOf(importanceBar.getProgress()), false, Float.valueOf(0), notes.getText().toString());
+                            Intent intent = new Intent();
+                            intent.putExtra(Globals.TASK, task);
+                            setResult(Globals.RESULT_TASK_CREATED, intent);
+                            finish();
+                        }
                     }
                 }
 
@@ -245,10 +271,11 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DatePicker dp = (DatePicker) dateView.findViewById(R.id.datePicker);
-                        month = dp.getMonth()+1;
+                        month = dp.getMonth();
+                        int tempMonth = month + 1;
                         day = dp.getDayOfMonth();
                         year = dp.getYear();
-                        date = month + "/" + dp.getDayOfMonth() + "/" + dp.getYear();
+                        date = tempMonth + "/" + dp.getDayOfMonth() + "/" + dp.getYear();
                         dateTxt.setText(date);
 
                     }
