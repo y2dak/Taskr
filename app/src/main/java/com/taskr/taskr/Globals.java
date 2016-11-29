@@ -9,4 +9,5 @@ public class Globals {
     public final static String SIGNED_IN = "signed_in";
     public final static int RC_SIGN_IN = 3;
     public static final int RESULT_TASK_CREATED = 2;
+    public static final String TASK = "task";
 }

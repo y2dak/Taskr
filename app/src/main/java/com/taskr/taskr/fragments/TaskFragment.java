@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.taskr.taskr.MainActivity;
 import com.taskr.taskr.R;
-import com.taskr.taskr.adapters.DayRecyclerViewAdapter;
-import com.taskr.taskr.models.DummyContent;
+import com.taskr.taskr.adapters.TaskRecyclerViewAdapter;
 import com.taskr.taskr.models.DummyContent.DummyItem;
+import com.taskr.taskr.models.Task;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -21,38 +24,42 @@ import com.taskr.taskr.models.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class DayFragment extends Fragment {
+public class TaskFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private MainActivity mainActivity;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private ArrayList<Task> mTasks = new ArrayList<>();
+    private TaskRecyclerViewAdapter taskRecyclerViewAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public DayFragment() {
+    public TaskFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static DayFragment newInstance(int columnCount) {
-        DayFragment fragment = new DayFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(mTasks);
+        updateTasks();
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+    }
+
+    public void updateTasks() {
+        mTasks.clear();
+        mTasks.addAll(mainActivity.getDatabase().getTaskList());
+        taskRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -69,7 +76,7 @@ public class DayFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new DayRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(taskRecyclerViewAdapter);
         }
         return view;
     }
