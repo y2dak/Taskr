@@ -49,7 +49,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(mTasks);
+        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(getContext(), mTasks);
         updateTasks();
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
