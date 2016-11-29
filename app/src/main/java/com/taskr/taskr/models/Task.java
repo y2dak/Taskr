@@ -28,7 +28,6 @@ public class Task implements Parcelable {
         completion = 0.0f;
         notes = "";
     }
-
     public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean manual, final float completion, final String notes) {
         this.name = name;
         this.duration = duration;
@@ -40,65 +39,27 @@ public class Task implements Parcelable {
         this.notes = notes;
     }
 
-    public String getName() {
-        return name;
-    }
-    public float getStart() {
-        return start;
-    }
-    public float getDuration() {
-        return duration;
-    }
-    public float getDesirability() {
-        return desirability;
-    }
-    public Date getUrgency() {
-        return urgency;
-    }
-    public float getImportance() {
-        return importance;
-    }
-    public boolean getManual() {
-        return manual;
-    }
-    public float getPriority() {
-        return priority;
-    }
+    public String getName() { return name; }
+    public float getStart() { return start; }
+    public float getDuration() { return duration; }
+    public float getDesirability() { return desirability; }
+    public Date getUrgency() { return urgency; }
+    public float getImportance() { return importance; }
+    public boolean getManual() { return manual; }
+    public float getPriority() { return priority; }
     public float getCompletion() { return completion; }
-    public String getNotes() {
-        return notes;
-    }
+    public String getNotes() { return notes; }
 
-    public void setName(String text) {
-        name = text;
-    }
-    public void setStart(float time) {
-        start = time;
-    }
-    public void setDuration(float time) {
-        duration = time;
-    }
-    public void setDesirability(float value) {
-        desirability = value;
-    }
-    public void setUrgency(Date dateTime) {
-        urgency = dateTime;
-    }
-    public void setImportance(float value) {
-        importance = value;
-    }
-    public void setManual(boolean flag) {
-        manual = flag;
-    }
-    public void setPriority(float value) {
-        priority = value;
-    }
-    public void setCompletion(float value) {
-        completion = value;
-    }
-    public void setNote(String text) {
-        notes = text;
-    }
+    public void setName(String text) { name = text; }
+    public void setStart(float time) { start = time; }
+    public void setDuration(float time) { duration = time; }
+    public void setDesirability(float value) { desirability = value; }
+    public void setUrgency(Date dateTime) { urgency = dateTime; }
+    public void setImportance(float value) { importance = value; }
+    public void setManual(boolean flag) { manual = flag; }
+    public void setPriority(float value) { priority = value; }
+    public void setCompletion(float value) { completion = value; }
+    public void setNote(String text) { notes = text; }
     public boolean areEqual(Task task2) {
         return getName().equals(task2.getName()) &&
                 getStart() == task2.getStart() &&
@@ -127,9 +88,7 @@ public class Task implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
+    public int describeContents() { return 0; }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -148,13 +107,9 @@ public class Task implements Parcelable {
     @SuppressWarnings("unused")
     final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
         @Override
-        public Task createFromParcel(Parcel in) {
-            return new Task(in);
-        }
+        public Task createFromParcel(Parcel in) { return new Task(in); }
 
         @Override
-        public Task[] newArray(int size) {
-            return new Task[size];
-        }
+        public Task[] newArray(int size) { return new Task[size]; }
     };
 }
