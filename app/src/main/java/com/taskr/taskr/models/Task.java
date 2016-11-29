@@ -72,8 +72,6 @@ public class Task implements Parcelable {
     public void setManual(boolean flag) { manual = flag; }
     public void setPriority(float value) { priority = value; }
     public void setCompletion(float value) { completion = value; }
-    public void setStartDate(Date datetime) { startDate = datetime; }
-    public void setEndDate(Date datetime) { endDate = datetime; }
     public void setNote(String text) { notes = text; }
     public boolean areEqual(Task task2) {
         return getName().equals(task2.getName()) &&
@@ -128,7 +126,7 @@ public class Task implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+    final static Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
         @Override
         public Task createFromParcel(Parcel in) { return new Task(in); }
 
@@ -136,17 +134,11 @@ public class Task implements Parcelable {
         public Task[] newArray(int size) { return new Task[size]; }
     };
 
-    public Date getStartDate() {
-        return startDate;
-    }
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;

@@ -47,7 +47,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             taskDesirability.setVisibility(View.GONE);
 
             taskStart.setText("Start date: " + df.format(task.getStartDate()));
-            taskEnd.setText("End date: " + df.format(task.getEndDate().toString()));
+            taskEnd.setText("End date: " + df.format(task.getEndDate()));
             taskType.setText("Manual");
         } else {
             taskStart.setVisibility(View.GONE);

@@ -34,6 +34,7 @@ public class TaskFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private ArrayList<Task> mTasks = new ArrayList<>();
     private TaskRecyclerViewAdapter taskRecyclerViewAdapter;
+    private boolean manual;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,8 +43,9 @@ public class TaskFragment extends Fragment {
     public TaskFragment() {
     }
 
-    public void setMainActivity(MainActivity mainActivity) {
+    public void initialize(MainActivity mainActivity, boolean manual) {
         this.mainActivity = mainActivity;
+        this.manual = manual;
     }
 
     @Override
@@ -58,7 +60,11 @@ public class TaskFragment extends Fragment {
 
     public void updateTasks() {
         mTasks.clear();
-        mTasks.addAll(mainActivity.getDatabase().getTaskList());
+        if(manual) {
+            mTasks.addAll(mainActivity.getDatabase().getManualTasks());
+        } else {
+            mTasks.addAll(mainActivity.getDatabase().getAutoTasks());
+        }
         taskRecyclerViewAdapter.notifyDataSetChanged();
     }
 
