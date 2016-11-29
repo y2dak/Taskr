@@ -122,7 +122,7 @@ public class Task implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+    final static Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
         @Override
         public Task createFromParcel(Parcel in) { return new Task(in); }
 
