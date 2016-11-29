@@ -72,8 +72,6 @@ public class Task implements Parcelable {
     public void setManual(boolean flag) { manual = flag; }
     public void setPriority(float value) { priority = value; }
     public void setCompletion(float value) { completion = value; }
-    public void setStartDate(Date datetime) { startDate = datetime; }
-    public void setEndDate(Date datetime) { endDate = datetime; }
     public void setNote(String text) { notes = text; }
     public boolean areEqual(Task task2) {
         return getName().equals(task2.getName()) &&
@@ -102,6 +100,10 @@ public class Task implements Parcelable {
         priority = in.readFloat();
         completion = in.readFloat();
         notes = in.readString();
+        tmpUrgency = in.readLong();
+        startDate = tmpUrgency != -1 ? new Date(tmpUrgency) : null;
+        tmpUrgency = in.readLong();
+        endDate = tmpUrgency != -1 ? new Date(tmpUrgency) : null;
     }
 
     @Override
@@ -119,14 +121,26 @@ public class Task implements Parcelable {
         dest.writeFloat(priority);
         dest.writeFloat(completion);
         dest.writeString(notes);
+        dest.writeLong(startDate != null ? startDate.getTime() : -1L);
+        dest.writeLong(endDate != null ? endDate.getTime() : -1L);
     }
 
     @SuppressWarnings("unused")
-    final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+    final static Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
         @Override
         public Task createFromParcel(Parcel in) { return new Task(in); }
 
         @Override
         public Task[] newArray(int size) { return new Task[size]; }
     };
+
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }
