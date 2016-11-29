@@ -7,12 +7,13 @@ public class Schedule {
     private String name;
     private ArrayList<Task> taskList;
     private int[][] timeslots;
-    // Should have 7 float[] arrays, one for each day of the week
+    // Should have 7 int[2400] arrays, one for each day of the week
     // Each minute initialized to "zero", meaning that time is free.
     // timeslots[1][1050]   ->   Monday at 10:30 AM (Using military time)
+    // If the schedule is not weekly: timeslots[24][1200]   ->   Day 24, 12 PM (Noon)
     private ArrayList<Boolean[]> taskDays;
     // For this schedule, these are the active days for each task
-    // taskDays[2][1] = 1   ->   Task 2 is active on Monday
+    // taskDays.get(2)[1] = 1   ->   Task 2 is active on Monday
     private Date startDate;
     private Date endDate;
     private String notes;
