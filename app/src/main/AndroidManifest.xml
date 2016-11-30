@@ -17,14 +17,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".AddTaskActivity"
-            android:label="@string/title_activity_add_task"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +24,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".AddTaskActivity"
+            android:label="@string/title_activity_add_task"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".TaskDetailActivity"
-            android:label="@string/title_activity_details"></activity>
+        <activity
+            android:name=".TaskDetailActivity"
+            android:label="@string/title_activity_details" />
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>

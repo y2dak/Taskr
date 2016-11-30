@@ -1,21 +1,19 @@
 {
   "project_info": {
-    "project_number": "310310145272",
-    "firebase_url": "https://taskr-2805e.firebaseio.com",
-    "project_id": "taskr-2805e",
-    "storage_bucket": "taskr-2805e.appspot.com"
+    "project_number": "917275115915",
+    "project_id": "taskr-150322"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:310310145272:android:47d43fd7b0d63fed",
+        "mobilesdk_app_id": "1:917275115915:android:47d43fd7b0d63fed",
         "android_client_info": {
           "package_name": "com.taskr.taskr"
         }
       },
       "oauth_client": [
         {
-          "client_id": "310310145272-5rpagnvg1phgnupal0k2oaar4sbp3n5p.apps.googleusercontent.com",
+          "client_id": "917275115915-s99efqbiqdn3vbdu9si3bgkq1m0t95na.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.taskr.taskr",
@@ -23,13 +21,13 @@
           }
         },
         {
-          "client_id": "310310145272-bmhlndhhmsa3qgo1h160vkkt2ui3jdvo.apps.googleusercontent.com",
+          "client_id": "917275115915-7hh3qtfvgrlh5u9e02k6t9ogp2atc8m7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAfaGGCAU5zQrdJEN3QnLsJkIXX8vgt094"
+          "current_key": "AIzaSyDSbZxmb4HgjiYTSe45vGDY_k7ljPGhIIE"
         }
       ],
       "services": {
@@ -37,16 +35,11 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "310310145272-bmhlndhhmsa3qgo1h160vkkt2ui3jdvo.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
+          "status": 1
         }
       }
     }

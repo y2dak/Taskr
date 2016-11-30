@@ -83,7 +83,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedpreferences = getSharedPreferences(Globals.MYPREFERENCES, Context.MODE_PRIVATE);
-        boolean isSignedIn = sharedpreferences.getBoolean(Globals.SIGNED_IN, false);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -92,11 +91,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        if (isSignedIn) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        } else {
             setContentView(R.layout.activity_login);
             // Set up the login form.
             mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -128,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
             signInButton.setSize(SignInButton.SIZE_STANDARD);
             signInButton.setOnClickListener(this);
-        }
+
     }
 
     @Override
@@ -138,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            System.out.println("status code: " + result.getStatus().getStatusCode());
             handleSignInResult(result);
         }
     }
@@ -147,10 +142,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            SharedPreferences sharedpreferences = getSharedPreferences(Globals.MYPREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean(Globals.SIGNED_IN, true);
-            editor.apply();
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         } else {

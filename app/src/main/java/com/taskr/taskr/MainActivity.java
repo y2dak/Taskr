@@ -23,11 +23,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.services.calendar.CalendarScopes;
 import com.taskr.taskr.fragments.BlankFragment;
 import com.taskr.taskr.fragments.TaskFragment;
 import com.taskr.taskr.models.Database;
 import com.taskr.taskr.models.DummyContent;
 import com.taskr.taskr.models.Task;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.taskr.taskr.Globals.RC_SIGN_IN;
 import static com.taskr.taskr.Globals.RESULT_TASK_CREATED;
@@ -36,11 +42,19 @@ import static com.taskr.taskr.Globals.TASK;
 public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener, TaskFragment.OnListFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
     ViewPager mViewPager;
     MyPageAdapter myPageAdapter;
-    private GoogleApiClient mGoogleApiClient;
     private final static String TAG = "MainActivity";
     private Database database = new Database();
     private TaskFragment autoFragment;
     private TaskFragment manualFragment;
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleAccountCredential mCredential;
+    static final int REQUEST_ACCOUNT_PICKER = 1000;
+    static final int REQUEST_AUTHORIZATION = 1001;
+    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
+
+    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
 
     @Override
@@ -65,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+
+        signIn();
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
                 startActivityForResult(new Intent(MainActivity.this, AddTaskActivity.class), 1);
             }
         });
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -88,27 +107,37 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+        switch(requestCode) {
+            case RC_SIGN_IN:
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                System.out.println("status code: " + result.getStatus().getStatusCode());
+                handleSignInResult(result);
+                break;
+            case 1:
+                if (resultCode == RESULT_TASK_CREATED) {
+                    Task task = data.getParcelableExtra(TASK);
+                    database.addTask(task);
+                    autoFragment.updateTasks();
+                    manualFragment.updateTasks();
+                }
+                break;
         }
-        if (requestCode == 1) {
-            if (resultCode == RESULT_TASK_CREATED) {
-                Task task = data.getParcelableExtra(TASK);
-                database.addTask(task);
-                autoFragment.updateTasks();
-                manualFragment.updateTasks();
-            }
-        }
+//        if (requestCode == RC_SIGN_IN) {
+//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            System.out.println("status code: " + result.getStatus().getStatusCode());
+//            handleSignInResult(result);
+//        }
+//        if (requestCode == 1) {
+//            if (resultCode == RESULT_TASK_CREATED) {
+//                Task task = data.getParcelableExtra(TASK);
+//                database.addTask(task);
+//                autoFragment.updateTasks();
+//                manualFragment.updateTasks();
+//            }
+//        }
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -116,12 +145,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(this, acct.getDisplayName(), Toast.LENGTH_SHORT).show();
         } else {
             // Signed out, show unauthenticated UI.
             Toast.makeText(this, "Error: Could not login", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
         }
     }
 
@@ -140,8 +166,31 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         switch (menuItem.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.signOut:
+                signOut();
+                break;
+            case R.id.map:
+                startActivity(new Intent(MainActivity.this, Main2Activity.class));
+                break;
         }
         return false;
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // ...
+                        signIn();
+                    }
+                });
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
     private class MyPageAdapter extends FragmentPagerAdapter {
@@ -179,5 +228,4 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
             }
         }
     }
-
 }
