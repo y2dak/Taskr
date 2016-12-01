@@ -52,7 +52,7 @@ public class Schedule {
         return taskList;
     }
     public boolean isTimeslotFree(int day, float startTime, float duration) {
-        if (startTime + duration <= 2400) {
+        if (startTime + duration < 2400) {
             // Case: Task doesn't go past midnight
             for (int x = (int) startTime; x < startTime + duration; x = x + 1) {
                 if (timeslots[day][x] == 1) {
@@ -93,7 +93,7 @@ public class Schedule {
         name = text;
     }
     public void fillTimeslot(int day, float startTime, float duration) {
-        if (startTime + duration <= 2400) {
+        if (startTime + duration < 2400) {
             // Case: Task doesn't go past midnight
             for (int x = (int) startTime; x < startTime + duration; x = x + 1) {
                 timeslots[day][x] = 1; }
@@ -118,7 +118,7 @@ public class Schedule {
         }
     }
     public void clearTimeslot(int day, float startTime, float duration) {
-        if (startTime + duration <= 2400) {
+        if (startTime + duration < 2400) {
             // Case: Task doesn't go past midnight
             for (int x = (int) startTime; x < startTime + duration; x = x + 1) {
                 timeslots[day][x] = 0; }
