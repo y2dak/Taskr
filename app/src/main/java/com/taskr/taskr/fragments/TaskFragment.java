@@ -1,5 +1,6 @@
 package com.taskr.taskr.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,12 @@ public class TaskFragment extends Fragment {
     public TaskFragment() {
     }
 
+    @SuppressLint("ValidFragment")
+    public TaskFragment(MainActivity mainActivity, boolean manual) {
+        this.mainActivity = mainActivity;
+        this.manual = manual;
+    }
+
     public void initialize(MainActivity mainActivity, boolean manual) {
         this.mainActivity = mainActivity;
         this.manual = manual;
@@ -60,12 +67,14 @@ public class TaskFragment extends Fragment {
 
     public void updateTasks() {
         mTasks.clear();
-        if(manual) {
-            mTasks.addAll(mainActivity.getDatabase().getManualTasks());
-        } else {
-            mTasks.addAll(mainActivity.getDatabase().getAutoTasks());
+        if (mainActivity != null) {
+            if (manual) {
+                mTasks.addAll(mainActivity.getManualTasks());
+            } else {
+                mTasks.addAll(mainActivity.getAutomaticTasks());
+            }
+            taskRecyclerViewAdapter.notifyDataSetChanged();
         }
-        taskRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
