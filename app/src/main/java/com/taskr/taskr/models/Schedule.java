@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Schedule {
     private String name;
-    private ArrayList<Task> taskList;
+    private ArrayList<Task> taskList = new ArrayList<>();
     private int[][] timeslots;
     // Should have 7 int[2400] arrays, one for each day of the week
     // Each minute initialized to "zero", meaning that time is free.

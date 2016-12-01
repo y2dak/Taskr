@@ -38,6 +38,10 @@ public class Task implements Parcelable {
         this.duration = duration;
         this.desirability = desirability;
         this.urgency = urgency;
+        this.endDate = urgency;
+        Date date = new Date();
+        date.setYear(date.getYear() - 1900);
+        this.startDate = date;
         this.importance = importance;
         this.manual = manual;
         this.completion = completion;

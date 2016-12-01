@@ -66,17 +66,17 @@ public class OfflineDatabase {
         contentValues.put(ID, task.getId());
         contentValues.put(NAME, task.getName());
 
-        contentValues.put(START_MONTH, 0);
-        contentValues.put(START_DAY, 0);
-        contentValues.put(START_YEAR, 0);
-        contentValues.put(START_HOUR, 0);
-        contentValues.put(START_MINUTES, 0);
+        contentValues.put(START_MONTH, task.getStartDate().getMonth());
+        contentValues.put(START_DAY, task.getStartDate().getDay());
+        contentValues.put(START_YEAR, task.getStartDate().getYear());
+        contentValues.put(START_HOUR, task.getStartDate().getHours());
+        contentValues.put(START_MINUTES, task.getStartDate().getMinutes());
 
-        contentValues.put(END_MONTH, 0);
-        contentValues.put(END_DAY, 0);
-        contentValues.put(END_YEAR, 0);
-        contentValues.put(END_HOUR, 0);
-        contentValues.put(END_MINUTES, 0);
+        contentValues.put(END_MONTH, task.getEndDate().getMonth());
+        contentValues.put(END_DAY, task.getEndDate().getDay());
+        contentValues.put(END_YEAR, task.getEndDate().getYear());
+        contentValues.put(END_HOUR, task.getEndDate().getHours());
+        contentValues.put(END_MINUTES, task.getEndDate().getMinutes());
 
         contentValues.put(START, task.getStart());
         contentValues.put(DURATION, task.getDuration());
@@ -222,7 +222,7 @@ public class OfflineDatabase {
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor c = database.rawQuery("SELECT * FROM tasks", null);
         if (c.moveToFirst()) {
-            while (!c.isAfterLast() && (c.getInt(21) == 0)) {
+            while (!c.isAfterLast()) {
                 Task task = new Task();
                 task.setId(c.getInt(0));
                 task.setName(c.getString(1));
@@ -240,7 +240,9 @@ public class OfflineDatabase {
                 task.setPriority(c.getFloat(22));
                 task.setCompletion(c.getFloat(23));
                 task.setNote(c.getString(24));
-                tasks.add(task);
+                if (c.getInt(21) == 0){
+                    tasks.add(task);
+                }
                 c.moveToNext();
             }
         }
