@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         mViewPager.setAdapter(myPageAdapter);
         mViewPager.setOffscreenPageLimit(3);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Edit tasks");
+
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -243,16 +246,11 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
 //    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            case android.R.id.home:
+                finish();
+                break;
         }
         return false;
     }
@@ -299,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
                     return "Automatic Tasks";
                 case 1:
                     return "Manual Tasks";
-                 default:
+                default:
                     return "My Schedules";
             }
         }

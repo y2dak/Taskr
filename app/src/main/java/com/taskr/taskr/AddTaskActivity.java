@@ -206,6 +206,11 @@ public class AddTaskActivity extends AppCompatActivity {
 
                             OfflineDatabase offlineDatabase = new OfflineDatabase();
                             offlineDatabase.addAutoTask(task);
+//                            if (r != -1) {
+//                                Toast.makeText(AddTaskActivity.this, "Success: " + r, Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(AddTaskActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+//                            }
                             Intent intent = new Intent();
                             intent.putExtra(Globals.TASK, task);
                             setResult(Globals.RESULT_TASK_CREATED, intent);
