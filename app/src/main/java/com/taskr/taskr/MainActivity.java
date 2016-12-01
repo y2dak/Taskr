@@ -1,13 +1,19 @@
 package com.taskr.taskr;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,8 +32,14 @@ import com.taskr.taskr.fragments.BlankFragment;
 import com.taskr.taskr.fragments.TaskFragment;
 import com.taskr.taskr.models.Database;
 import com.taskr.taskr.models.DummyContent;
+import com.taskr.taskr.models.OfflineDatabase;
 import com.taskr.taskr.models.Task;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static com.taskr.taskr.Globals.MY_PERMISSIONS_REQUEST_READ_EXTERNAL;
+import static com.taskr.taskr.Globals.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL;
 import static com.taskr.taskr.Globals.RC_SIGN_IN;
 import static com.taskr.taskr.Globals.RESULT_TASK_CREATED;
 import static com.taskr.taskr.Globals.TASK;
@@ -40,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     private Database database = new Database();
     private TaskFragment autoFragment;
     private TaskFragment manualFragment;
+    private OfflineDatabase offlineDatabase;
+    private boolean firstTime = true;
 
 
     @Override
@@ -52,10 +66,66 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         myPageAdapter = new MyPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(myPageAdapter);
-        autoFragment = new TaskFragment();
-        manualFragment = new TaskFragment();
-        autoFragment.initialize(this, false);
-        manualFragment.initialize(this, true);
+        mViewPager.setOffscreenPageLimit(3);
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+
+        offlineDatabase = new OfflineDatabase();
+        autoFragment = new TaskFragment(this, false);
+        manualFragment = new TaskFragment(this, true);
 
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestEmail()
@@ -77,6 +147,16 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (!firstTime) {
+            manualFragment.updateTasks();
+            autoFragment.updateTasks();
+        }
+        firstTime = false;
+    }
+
+    @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
@@ -92,6 +172,32 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -102,6 +208,10 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         }
         if (requestCode == 1) {
             if (resultCode == RESULT_TASK_CREATED) {
+//                ArrayList<Task> tasks = offlineDatabase.getAllTasks();
+//                for (Task task : tasks) {
+//                    System.out.println("Task: " + task.getName());
+//                }
                 Task task = data.getParcelableExtra(TASK);
                 database.addTask(task);
                 autoFragment.updateTasks();
@@ -128,6 +238,10 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         return database;
     }
 
+//    public OfflineDatabase getOfflineDatabase() {
+//        return offlineDatabase;
+//    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -141,6 +255,18 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
         return false;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return offlineDatabase.getAllTasks();
+    }
+
+    public ArrayList<Task> getAutomaticTasks() {
+        return offlineDatabase.getAutomaticTasks();
+    }
+
+    public ArrayList<Task> getManualTasks() {
+        return offlineDatabase.getManualTasks();
     }
 
     private class MyPageAdapter extends FragmentPagerAdapter {

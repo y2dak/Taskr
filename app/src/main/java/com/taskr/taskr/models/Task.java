@@ -3,6 +3,7 @@ package com.taskr.taskr.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.Date;
+import java.util.Random;
 
 public class Task implements Parcelable {
     private String name;
@@ -17,6 +18,7 @@ public class Task implements Parcelable {
     private float priority;
     private float completion;
     private String notes;
+    private int id;
 
     public Task() {
         name = "";
@@ -30,6 +32,7 @@ public class Task implements Parcelable {
         completion = 0.0f;
         notes = "";
     }
+
     public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean manual, final float completion, final String notes) {
         this.name = name;
         this.duration = duration;
@@ -39,6 +42,8 @@ public class Task implements Parcelable {
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
+        Random random = new Random();
+        this.id = random.nextInt();
     }
 
     public Task(String name, Date startDate, Date endDate, boolean manual, Float completion, String notes) {
@@ -48,6 +53,8 @@ public class Task implements Parcelable {
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
+        Random random = new Random();
+        this.id = random.nextInt();
     }
 
     public String getName() { return name; }
@@ -104,6 +111,7 @@ public class Task implements Parcelable {
         startDate = tmpUrgency != -1 ? new Date(tmpUrgency) : null;
         tmpUrgency = in.readLong();
         endDate = tmpUrgency != -1 ? new Date(tmpUrgency) : null;
+        id = in.readInt();
     }
 
     @Override
@@ -123,6 +131,7 @@ public class Task implements Parcelable {
         dest.writeString(notes);
         dest.writeLong(startDate != null ? startDate.getTime() : -1L);
         dest.writeLong(endDate != null ? endDate.getTime() : -1L);
+        dest.writeInt(id);
     }
 
     @SuppressWarnings("unused")
@@ -142,5 +151,13 @@ public class Task implements Parcelable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
