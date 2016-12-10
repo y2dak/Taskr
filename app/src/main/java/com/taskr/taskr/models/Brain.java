@@ -103,6 +103,36 @@ public class Brain {
         return schedule;
     }
 
+    public ArrayList<Task> splitTasks(ArrayList<Task> tasks, float timeInterval) {
+        ArrayList<Task> schedule = new ArrayList<>();
+        for(Task t : tasks) //split up auto tasks into pieces no greater than timeInterval and add to schedule
+        {
+            if(t.getManual()) schedule.add(t);
+            else
+            {
+                int nparts = (int) (timeNeeded(t) / timeInterval) + ((timeNeeded(t) % timeInterval == 0.0f) ? 0 : 1);
+                float comp = t.getCompletion(); //store original completion since we will be modifying it
+                for (int n = 1; n <= nparts; ++n) {
+                    //calculate how long the task interval will be in the range (0-timeInterval]
+                    float time = ((timeNeeded(t) - ((float) n) * timeInterval < 0.0f) ? timeNeeded(t) : timeInterval);
+                    //add the split up task interval to the schedule task list
+                    schedule.add(new Task(t.getName() + String.format(" (part %1$d of %2$d)", n, nparts), time, t.getDesirability(), t.getUrgency(), t.getImportance(), t.getManual(), t.getCompletion(), t.getNotes()));
+                    t.setCompletion(t.getCompletion() + (time / t.getDuration())); //add to completion the % we accomplished with this time interval
+                }
+                t.setCompletion(comp);
+            }
+        }
+        return schedule;
+    }
+
+    public int getNumParts(Task t, float timeInterval) {
+        return (int) (timeNeeded(t) / timeInterval) + ((timeNeeded(t) % timeInterval == 0.0f) ? 0 : 1);
+    }
+
+    public float getDuration(Task t, float timeInterval, int n){
+        return ((timeNeeded(t) - ((float) n) * timeInterval < 0.0f) ? timeNeeded(t) : timeInterval);
+    }
+
 
 
     private float desWeight;

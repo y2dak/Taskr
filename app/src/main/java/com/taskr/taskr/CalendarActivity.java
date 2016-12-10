@@ -28,6 +28,12 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
     private Brain brain;
     private ArrayList<WeekViewEvent> events = new ArrayList<>();
     private int i = 0;
+    private ArrayList<Task> splits = new ArrayList<>();
+    private int day = 1;
+    private int hour = 12;
+    private ArrayList<WeekViewEvent> events1 = new ArrayList<>();
+    private int count = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,10 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         brain = new Brain(1.0f, 1.0f, 1.0f, 1.0f);
         offlineDatabase = new OfflineDatabase();
+        events1.add(new WeekViewEvent(1, "Sleep", 2016, 12, 4, 22, 00, 2016, 12, 5, 6, 15));
+        events1.add(new WeekViewEvent(2, "Study for Physics final Part 1", 2016, 12, 1, 14, 0, 2016, 12, 1, 15, 0));
+        events1.add(new WeekViewEvent(3, "Study for Physics final Part 2", 2016, 12, 3, 14, 0, 2016, 12, 3, 15, 0));
+        events1.add(new WeekViewEvent(4, "Study for Physics final Part 3", 2016, 12, 5, 14, 0, 2016, 12, 5, 15, 0));
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -54,20 +64,58 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         mWeekView.setEventLongPressListener(this);
     }
 
+    private ArrayList<Task> splitTasks(ArrayList<Task> tasks, float timeInterval) {
+        System.out.println("splitTasks");
+        int hour = 12;
+        int minutes = 0;
+        ArrayList<Task> retTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getManual()) {
+                retTasks.add(task);
+            } else {
+                float numTasks = brain.getNumParts(task, timeInterval);
+                for (int n = 1; n < numTasks; n++) {
+                    float duration = brain.getDuration(task, timeInterval, n);
+                    Date startDate = new Date();
+                    startDate.setHours(hour);
+                    startDate.setMinutes(0);
+                    startDate.setYear(2016-1900);
+                    startDate.setDate(startDate.getDate());
+                    Date endDate = new Date();
+                    endDate.setYear(2016-1900);
+                    endDate.setDate(startDate.getDate() + (n + 10));
+                    endDate.setHours(hour + 1);
+                    System.out.println(startDate.toString());
+                    System.out.println(endDate.toString());
+                    retTasks.add(new Task(task.getName(), startDate, endDate, false, task.getCompletion(), task.getNotes()));
+                    hour++;
+                }
+            }
+        }
+        return retTasks;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        events.clear();
-        ArrayList<Task> tasks = offlineDatabase.getAutomaticTasks();
-        Date start = new Date();
-        start.setYear(2016);
-        Date end = start;
-        end.setDate(3);
-        Schedule schedule = brain.autoSchedule(start, end, tasks);
-        ArrayList<Task> tasks1 = schedule.getTasks();
-        for (Task task : tasks1) {
-            events.add(new WeekViewEvent(task.getId(), task.getName(), task.getStartDate().getYear(), task.getStartDate().getMonth(), task.getStartDate().getDay(), task.getStartDate().getHours(), task.getStartDate().getMinutes(), task.getEndDate().getYear(), task.getEndDate().getMonth(), task.getEndDate().getDay(), task.getEndDate().getHours(), task.getEndDate().getMinutes()));
-        }
+//        events.clear();
+//        ArrayList<Task> tasks = offlineDatabase.getAutomaticTasks();
+//        Date start = new Date();
+//        start.setYear(2016);
+//        Date end = start;
+//        end.setDate(3);
+//        Schedule schedule = brain.autoSchedule(start, end, tasks);
+//        ArrayList<Task> tasks1 = schedule.getTasks();
+//        for (Task task : tasks1) {
+//            events.add(new WeekViewEvent(task.getId(), task.getName(), task.getStartDate().getYear(), task.getStartDate().getMonth(), task.getStartDate().getDay(), task.getStartDate().getHours(), task.getStartDate().getMinutes(), task.getEndDate().getYear(), task.getEndDate().getMonth(), task.getEndDate().getDay(), task.getEndDate().getHours(), task.getEndDate().getMinutes()));
+//        }
+//        mWeekView.getMonthChangeListener().onMonthChange(2016, 12);
+//        ArrayList<Task> automaticTasks = offlineDatabase.getAutomaticTasks();
+//        ArrayList<Task> manualTasks = offlineDatabase.getManualTasks();
+//        ArrayList<Task> tasks = new ArrayList<>();
+//        tasks.addAll(manualTasks);
+//        tasks.addAll(automaticTasks);
+//        splits = splitTasks(tasks, 1.0f);
     }
 
     @Override
@@ -83,15 +131,12 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         System.out.println("onMonthChange");
-        List<WeekViewEvent> events1 = new ArrayList<>();
-        if (i > 1) {
+        System.out.println(events1.size());
+        if (i < 2) {
             //(long id, String name, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute)
-            events1.add(new WeekViewEvent(1, "Sleep", 2016, 12, 4, 22, 00, 2016, 12, 5, 6, 15));
-            events1.add(new WeekViewEvent(2, "Study for Physics final Part 1", 2016, 12, 1, 14, 0, 2016, 12, 1, 15, 0));
-            events1.add(new WeekViewEvent(3, "Study for Physics final Part 2", 2016, 12, 3, 14, 0, 2016, 12, 3, 15, 0));
-            events1.add(new WeekViewEvent(4, "Study for Physics final Part 3", 2016, 12, 5, 14, 0, 2016, 12, 5, 15, 0));
+            i++;
+            return new ArrayList<>();
         }
-        i++;
         return events1;
     }
 
@@ -114,6 +159,21 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.action_add:
+                if (count == 0) {
+                    events1.add(new WeekViewEvent(2, "Study for Math final Part 1", 2016, 12, day, 18, 0, 2016, 12, day, 20, 0));
+                    events1.add(new WeekViewEvent(3, "Study for Math final Part 2", 2016, 12, day + 1, 18, 0, 2016, 12, day + 1, 20, 0));
+                    events1.add(new WeekViewEvent(4, "Study for Math final Part 3", 2016, 12, day + 2, 18, 0, 2016, 12, day + 2, 20, 0));
+                } else if (count == 1) {
+                    events1.add(new WeekViewEvent(2, "Meeting with Mark", 2016, 12, day, 9, 0, 2016, 12, day, 10, 0));
+                } else if (count == 2) {
+                    events1.add(new WeekViewEvent(2, "Date night", 2016, 12, day, 20, 0, 2016, 12, day, 23, 0));
+                }
+                day++;
+                hour++;
+                count++;
+                i = 0;
+                mWeekView.notifyDatasetChanged();
         }
         return false;
     }
