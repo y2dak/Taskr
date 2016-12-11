@@ -59,43 +59,43 @@ public class Database {
         return manuals;
     }
 
-    public Schedule getSchedule(int schednum) { return schedList.get(schednum); }
-    public ArrayList<Schedule> getSchedList() { return schedList; }
-    public String getSchedName(int schednum) { return schedList.get(schednum).getName(); }
-    public ArrayList<Task> getSchedTasks(int schednum) { return schedList.get(schednum).getTasks(); }
-    public boolean isSchedTimeslotFree(int schednum, int dayOfWeek, float startTime, float duration) {
-        return schedList.get(schednum).isTimeslotFree(dayOfWeek, startTime, duration); }
-    public boolean isSchedTaskDayActive(int schednum, int tasknum, int day) { return schedList.get(schednum).isTaskDayActive(tasknum, day); }
-    public String getSchedNotes(int schednum) { return schedList.get(schednum).getNotes(); }
-
-    public void setSchedName(int schednum, String text) { schedList.get(schednum).setName(text); }
-    public void fillSchedTimeslot(int schednum, int dayOfWeek, float startTime, float duration) {
-        schedList.get(schednum).fillTimeslot(dayOfWeek, startTime, duration); }
-    public void clearSchedTimeslot(int schednum, int dayOfWeek, float startTime, float duration) {
-        schedList.get(schednum).clearTimeslot(dayOfWeek, startTime, duration); }
-    public void clearSched(int schednum) { schedList.get(schednum).clearSchedule(); }
-    public void setSchedTaskDay(int schednum, int tasknum, int day) { schedList.get(schednum).setTaskDay(tasknum, day); }
-    public void clearSchedTaskDay(int schednum, int tasknum, int day) { schedList.get(schednum).clearTaskDay(tasknum, day); }
-    public void addTaskToSched(int schednum, int tasknum) { schedList.get(schednum).addTask(taskList.get(tasknum)); }
-    public void removeTaskFromSched(int schednum, int schedtasknum) {
-        // schedtasknum uses the schedule's TaskList, not the Database's
-        schedList.get(schednum).removeTask(schedtasknum); }
-    public void setSchedNotes(int schednum, String text) { schedList.get(schednum).setNotes(text); }
-
-    public void createSched() { schedList.add(new Schedule()); }
-    public void addSched( Schedule sched ) { schedList.add( sched ); }
-    public void removeSched( int schednum ) { schedList.remove( schednum ); }
-
-    public ArrayList<Task> getSortedTaskListPriority() {
-        ArrayList<Task> temp = new ArrayList<>(taskList);
-        Collections.sort(temp, new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                float p1 = o1.getPriority();
-                float p2 = o2.getPriority();
-                return Float.compare(p2, p1);
-            }
-        });
-        return temp;
-    }
+//    public Schedule getSchedule(int schednum) { return schedList.get(schednum); }
+//    public ArrayList<Schedule> getSchedList() { return schedList; }
+//    public String getSchedName(int schednum) { return schedList.get(schednum).getName(); }
+//    public ArrayList<Task> getSchedTasks(int schednum) { return schedList.get(schednum).getTasks(); }
+//    public boolean isSchedTimeslotFree(int schednum, int dayOfWeek, float startTime, float duration) {
+//        return schedList.get(schednum).isTimeslotFree(dayOfWeek, startTime, duration); }
+//    public boolean isSchedTaskDayActive(int schednum, int tasknum, int day) { return schedList.get(schednum).isTaskDayActive(tasknum, day); }
+//    public String getSchedNotes(int schednum) { return schedList.get(schednum).getNotes(); }
+//
+//    public void setSchedName(int schednum, String text) { schedList.get(schednum).setName(text); }
+//    public void fillSchedTimeslot(int schednum, int dayOfWeek, float startTime, float duration) {
+//        schedList.get(schednum).fillTimeslot(dayOfWeek, startTime, duration); }
+//    public void clearSchedTimeslot(int schednum, int dayOfWeek, float startTime, float duration) {
+//        schedList.get(schednum).clearTimeslot(dayOfWeek, startTime, duration); }
+//    public void clearSched(int schednum) { schedList.get(schednum).clearSchedule(); }
+//    public void setSchedTaskDay(int schednum, int tasknum, int day) { schedList.get(schednum).setTaskDay(tasknum, day); }
+//    public void clearSchedTaskDay(int schednum, int tasknum, int day) { schedList.get(schednum).clearTaskDay(tasknum, day); }
+//    public void addTaskToSched(int schednum, int tasknum) { schedList.get(schednum).addTask(taskList.get(tasknum)); }
+//    public void removeTaskFromSched(int schednum, int schedtasknum) {
+//        // schedtasknum uses the schedule's TaskList, not the Database's
+//        schedList.get(schednum).removeTask(schedtasknum); }
+//    public void setSchedNotes(int schednum, String text) { schedList.get(schednum).setNotes(text); }
+//
+//    public void createSched() { schedList.add(new Schedule()); }
+//    public void addSched( Schedule sched ) { schedList.add( sched ); }
+//    public void removeSched( int schednum ) { schedList.remove( schednum ); }
+//
+//    public ArrayList<Task> getSortedTaskListPriority() {
+//        ArrayList<Task> temp = new ArrayList<>(taskList);
+//        Collections.sort(temp, new Comparator<Task>() {
+//            @Override
+//            public int compare(Task o1, Task o2) {
+//                float p1 = o1.getPriority();
+//                float p2 = o2.getPriority();
+//                return Float.compare(p2, p1);
+//            }
+//        });
+//        return temp;
+//    }
 }
