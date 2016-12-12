@@ -77,7 +77,7 @@ public class Brain {
                 t.setStart(start);
                 t.setDuration(dura);
 
-                schedule.setTaskDay(i, day);
+//                schedule.setTaskDay(i, day);
             }
             else
             {
@@ -85,11 +85,11 @@ public class Brain {
                 {
                     for(int s = 0; s < 2400; ++s)
                     {
-                        if(schedule.isTimeslotFree(d, s, t.getDuration()*100.0f))
+//                        if(schedule.isTimeslotFree(d, s, t.getDuration()*100.0f))
                         {
                             t.setStart(s);
                             t.setDuration(t.getDuration()*100.0f);
-                            schedule.setTaskDay(i, d);
+//                            schedule.setTaskDay(i, d);
                         }
                     }
                 }
@@ -105,6 +105,7 @@ public class Brain {
 
     public ArrayList<Task> splitTasks(ArrayList<Task> tasks, float timeInterval) {
         ArrayList<Task> schedule = new ArrayList<>();
+        int hour = 12;
         for(Task t : tasks) //split up auto tasks into pieces no greater than timeInterval and add to schedule
         {
             if(t.getManual()) schedule.add(t);
@@ -113,12 +114,16 @@ public class Brain {
                 int nparts = (int) (timeNeeded(t) / timeInterval) + ((timeNeeded(t) % timeInterval == 0.0f) ? 0 : 1);
                 float comp = t.getCompletion(); //store original completion since we will be modifying it
                 for (int n = 1; n <= nparts; ++n) {
+                    Date date = new Date();
+                    Date start = new Date(date.getYear(), date.getMonth(), date.getDate() + (n-1), hour, 0);
+                    Date end = new Date(start.getYear(), start.getMonth(), start.getDate(), start.getHours() + 1, 0);
                     //calculate how long the task interval will be in the range (0-timeInterval]
                     float time = ((timeNeeded(t) - ((float) n) * timeInterval < 0.0f) ? timeNeeded(t) : timeInterval);
                     //add the split up task interval to the schedule task list
-                    schedule.add(new Task(t.getName() + String.format(" (part %1$d of %2$d)", n, nparts), time, t.getDesirability(), t.getUrgency(), t.getImportance(), t.getManual(), t.getCompletion(), t.getNotes()));
+                    schedule.add(new Task(t.getName() + String.format(" (part %1$d of %2$d)", n, nparts), time, t.getDesirability(), t.getUrgency(), t.getImportance(), t.getManual(), t.getCompletion(), t.getNotes(), start, end));
                     t.setCompletion(t.getCompletion() + (time / t.getDuration())); //add to completion the % we accomplished with this time interval
                 }
+                hour+=2;
                 t.setCompletion(comp);
             }
         }

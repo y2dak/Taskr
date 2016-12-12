@@ -67,13 +67,13 @@ public class OfflineDatabase {
         contentValues.put(NAME, task.getName());
 
         contentValues.put(START_MONTH, task.getStartDate().getMonth());
-        contentValues.put(START_DAY, task.getStartDate().getDay());
+        contentValues.put(START_DAY, task.getStartDate().getDate());
         contentValues.put(START_YEAR, task.getStartDate().getYear());
         contentValues.put(START_HOUR, task.getStartDate().getHours());
         contentValues.put(START_MINUTES, task.getStartDate().getMinutes());
 
         contentValues.put(END_MONTH, task.getEndDate().getMonth());
-        contentValues.put(END_DAY, task.getEndDate().getDay());
+        contentValues.put(END_DAY, task.getEndDate().getDate());
         contentValues.put(END_YEAR, task.getEndDate().getYear());
         contentValues.put(END_HOUR, task.getEndDate().getHours());
         contentValues.put(END_MINUTES, task.getEndDate().getMinutes());
@@ -83,7 +83,7 @@ public class OfflineDatabase {
         contentValues.put(DESIRABILITY, task.getDesirability());
 
         contentValues.put(URGENCY_MONTH, task.getUrgency().getMonth());
-        contentValues.put(URGENCY_DAY, task.getUrgency().getDay());
+        contentValues.put(URGENCY_DAY, task.getUrgency().getDate());
         contentValues.put(URGENCY_YEAR, task.getUrgency().getYear());
         contentValues.put(URGENCY_HOUR, task.getUrgency().getHours());
         contentValues.put(URGENCY_MINUTES, task.getUrgency().getMinutes());
@@ -108,13 +108,13 @@ public class OfflineDatabase {
         contentValues.put(NAME, task.getName());
 
         contentValues.put(START_MONTH, task.getStartDate().getMonth());
-        contentValues.put(START_DAY, task.getStartDate().getDay());
+        contentValues.put(START_DAY, task.getStartDate().getDate());
         contentValues.put(START_YEAR, task.getStartDate().getYear());
         contentValues.put(START_HOUR, task.getStartDate().getHours());
         contentValues.put(START_MINUTES, task.getStartDate().getMinutes());
 
         contentValues.put(END_MONTH, task.getEndDate().getMonth());
-        contentValues.put(END_DAY, task.getEndDate().getDay());
+        contentValues.put(END_DAY, task.getEndDate().getDate());
         contentValues.put(END_YEAR, task.getEndDate().getYear());
         contentValues.put(END_HOUR, task.getEndDate().getHours());
         contentValues.put(END_MINUTES, task.getEndDate().getMinutes());
