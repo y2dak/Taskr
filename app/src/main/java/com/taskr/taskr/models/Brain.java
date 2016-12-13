@@ -44,7 +44,6 @@ public class Brain {
             }
         });
 
-<<<<<<< HEAD
         //fill the schedule by setting the start/end dates of the tasks
         for (Task t : schedule.getTasks()) {
             System.out.print("\t\"" + t.getName() + "\"\t");
@@ -53,47 +52,6 @@ public class Brain {
                     t.setStartDate(d);
                     t.setEndDate(e);
                     break;
-=======
-
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(begin);
-        int beginDay = cal.get(Calendar.DAY_OF_YEAR);
-        Date beginTime = cal.getTime();
-        int days = (int)(begin.getTime() - end.getTime())/(1000 * 60 * 60 * 24);
-
-        //fill up time slots with tasks
-        for(int i = 0; i < schedule.getTasks().size(); ++i)
-        {
-            Task t = schedule.getTasks().get(i);
-            if(t.getManual())
-            {
-                cal.setTime(t.getStartDate());
-                int day = cal.get(Calendar.DAY_OF_YEAR) - beginDay;
-                float start = ((float)(100 * cal.get(Calendar.HOUR_OF_DAY))) + (((float)cal.get(Calendar.MINUTE))/0.6f);
-                cal.setTime(t.getEndDate());
-                float dura = ((float)(100 * cal.get(Calendar.HOUR_OF_DAY))) + (((float)cal.get(Calendar.MINUTE))/0.6f) - start;
-
-                if(dura < 0) dura += 2400.0f;
-                if(day < 0) day += 365 + ((cal.isLeapYear(cal.get(Calendar.YEAR)- 1)) ? 1 : 0);
-                t.setStart(start);
-                t.setDuration(dura);
-
-//                schedule.setTaskDay(i, day);
-            }
-            else
-            {
-                for(int d = 0; d < days; ++d)
-                {
-                    for(int s = 0; s < 2400; ++s)
-                    {
-//                        if(schedule.isTimeslotFree(d, s, t.getDuration()*100.0f))
-                        {
-                            t.setStart(s);
-                            t.setDuration(t.getDuration()*100.0f);
-//                            schedule.setTaskDay(i, d);
-                        }
-                    }
->>>>>>> c42175fcd679070a16606ccd87afd8940903c1b2
                 }
             }
         }
@@ -105,7 +63,6 @@ public class Brain {
         return schedule;
     }
 
-<<<<<<< HEAD
     public float getPriority(int index, ArrayList<Task> tasks) {
         return getPriority(index, tasks, 0.0f, new Date());
     }
@@ -124,33 +81,6 @@ public class Brain {
         final double p3 = 1.0;
 
         return (float) ((x < 1.0) ? ((Math.pow(1.0 - x, 3.0) * p0) + (Math.pow(1.0 - x, 2.0) * x * 3.0 * p1) + ((1.0 - x) * Math.pow(x, 2.0) * 3.0 * p2) + (Math.pow(x, 3.0) * p3)) : 1.0);
-=======
-    public ArrayList<Task> splitTasks(ArrayList<Task> tasks, float timeInterval) {
-        ArrayList<Task> schedule = new ArrayList<>();
-        int hour = 12;
-        for(Task t : tasks) //split up auto tasks into pieces no greater than timeInterval and add to schedule
-        {
-            if(t.getManual()) schedule.add(t);
-            else
-            {
-                int nparts = (int) (timeNeeded(t) / timeInterval) + ((timeNeeded(t) % timeInterval == 0.0f) ? 0 : 1);
-                float comp = t.getCompletion(); //store original completion since we will be modifying it
-                for (int n = 1; n <= nparts; ++n) {
-                    Date date = new Date();
-                    Date start = new Date(date.getYear(), date.getMonth(), date.getDate() + (n-1), hour, 0);
-                    Date end = new Date(start.getYear(), start.getMonth(), start.getDate(), start.getHours() + 1, 0);
-                    //calculate how long the task interval will be in the range (0-timeInterval]
-                    float time = ((timeNeeded(t) - ((float) n) * timeInterval < 0.0f) ? timeNeeded(t) : timeInterval);
-                    //add the split up task interval to the schedule task list
-                    schedule.add(new Task(t.getName() + String.format(" (part %1$d of %2$d)", n, nparts), time, t.getDesirability(), t.getUrgency(), t.getImportance(), t.getManual(), t.getCompletion(), t.getNotes(), start, end));
-                    t.setCompletion(t.getCompletion() + (time / t.getDuration())); //add to completion the % we accomplished with this time interval
-                }
-                hour+=2;
-                t.setCompletion(comp);
-            }
-        }
-        return schedule;
->>>>>>> c42175fcd679070a16606ccd87afd8940903c1b2
     }
 
     public int getNumParts(Task t, float timeInterval) {
