@@ -21,16 +21,35 @@ public class Task implements Parcelable {
     private int id;
 
     public Task() {
-        name = "";
-        start = 0.0f;
-        duration = 0.0f;
-        desirability = 0.0f;
-        urgency = new Date();
-        importance = 0.0f;
-        manual = false;
-        priority = 0.0f;
-        completion = 0.0f;
-        notes = "";
+        this.name = "";
+        this.start = 0.0f;
+        this.startDate = new Date(0L);
+        this.endDate = new Date(0L);
+        this.duration = 0.0f;
+        this.desirability = 0.0f;
+        this.urgency = new Date();
+        this.importance = 0.0f;
+        this.manual = false;
+        this.priority = 0.0f;
+        this.completion = 0.0f;
+        this.notes = "";
+        this.id = new Random().nextInt();
+    }
+
+    public Task(Task o) {
+        this.name = o.name;
+        this.startDate = new Date(o.startDate.getTime());
+        this.endDate = new Date(o.endDate.getTime());
+        this.start = o.start;
+        this.duration = o.duration;
+        this.desirability = o.desirability;
+        this.urgency = new Date(o.urgency.getTime());
+        this.importance = o.importance;
+        this.manual = o.manual;
+        this.priority = o.priority;
+        this.completion = o.completion;
+        this.notes = o.notes;
+        this.id = new Random().nextInt();
     }
 
     public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean manual, final float completion, final String notes) {
@@ -38,27 +57,24 @@ public class Task implements Parcelable {
         this.duration = duration;
         this.desirability = desirability;
         this.urgency = urgency;
-        this.endDate = urgency;
-        Date date = new Date();
-        date.setYear(date.getYear() - 1900);
-        this.startDate = date;
+        this.endDate = new Date(0L);
+        this.startDate = new Date(0L);
         this.importance = importance;
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
-        Random random = new Random();
-        this.id = random.nextInt();
+        this.id = new Random().nextInt();
     }
 
     public Task(String name, Date startDate, Date endDate, boolean manual, Float completion, String notes) {
         this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = new Date(startDate.getTime());
+        this.endDate = new Date(endDate.getTime());
+        this.urgency = new Date(0L);
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
-        Random random = new Random();
-        this.id = random.nextInt();
+        this.id = new Random().nextInt();
     }
 
     public String getName() { return name; }
