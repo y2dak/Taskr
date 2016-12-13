@@ -1,12 +1,16 @@
 package com.taskr.taskr;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.taskr.taskr.models.OfflineDatabase;
 import com.taskr.taskr.models.Task;
 
 import java.text.DateFormat;
@@ -23,13 +27,14 @@ public class TaskDetailActivity extends AppCompatActivity {
     private TextView taskStart;
     private TextView taskEnd;
     private TextView taskNotes;
+    private Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Task task = getIntent().getParcelableExtra(Globals.TASK);
+        task = getIntent().getParcelableExtra(Globals.TASK);
         taskName = (TextView) findViewById(R.id.taskName);
         taskHours = (TextView) findViewById(R.id.taskHours);
         taskType = (TextView) findViewById(R.id.taskType);
@@ -63,12 +68,39 @@ public class TaskDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_delete:
+                delete();
+                break;
         }
         return false;
+    }
+
+    private void delete() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                OfflineDatabase offlineDatabase = new OfflineDatabase();
+                offlineDatabase.deleteTask(task.getId());
+                finish();
+            }
+        })
+                .setNegativeButton("No", null)
+                .setTitle("Are you sure?")
+                .setMessage("Are you sure you want to delete this task?")
+                .create();
+        alertDialog.show();
     }
 
 }
