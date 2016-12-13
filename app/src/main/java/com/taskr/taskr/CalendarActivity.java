@@ -100,7 +100,11 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         super.onResume();
         i = 0;
         events1.clear();
-        ArrayList<Task> tasks = brain.splitTasks(offlineDatabase.getAllTasks(), 1.0f);
+        Date date = new Date();
+        date.setDate(date.getDate() + 5);
+        System.out.println("Date: " + date.toString());
+        Schedule schedule = brain.autoSchedule(new Date(), date, offlineDatabase.getAllTasks());
+        ArrayList<Task> tasks = schedule.getTasks();
         System.out.println("size: " + tasks.size());
         for (Task task : tasks) {
             events1.add(convert(task));
@@ -146,7 +150,8 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
             return new ArrayList<>();
         }
         for (WeekViewEvent event : events1) {
-            System.out.println(event.getName() + "  " + event.getStartTime() + " " + event.getEndTime());
+            System.out.println(event.getName() + " : " + event.getStartTime());
+            System.out.println(event.getEndTime());
         }
         return events1;
     }
