@@ -57,14 +57,8 @@ public class Task implements Parcelable {
         this.duration = duration;
         this.desirability = desirability;
         this.urgency = urgency;
-<<<<<<< HEAD
         this.endDate = new Date(0L);
         this.startDate = new Date(0L);
-=======
-        this.endDate = urgency;
-        Date date = new Date();
-        this.startDate = date;
->>>>>>> c42175fcd679070a16606ccd87afd8940903c1b2
         this.importance = importance;
         this.manual = manual;
         this.completion = completion;
@@ -72,32 +66,11 @@ public class Task implements Parcelable {
         this.id = new Random().nextInt();
     }
 
-    public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean manual, final float completion, final String notes, final Date startDate, final Date endDate) {
-        this.name = name;
-        this.duration = duration;
-        this.desirability = desirability;
-        this.urgency = urgency;
-        this.endDate = endDate;
-        this.startDate = startDate;
-        this.importance = importance;
-        this.manual = manual;
-        this.completion = completion;
-        this.notes = notes;
-        Random random = new Random();
-        this.id = random.nextInt();
-    }
-
     public Task(String name, Date startDate, Date endDate, boolean manual, Float completion, String notes) {
         this.name = name;
-<<<<<<< HEAD
         this.startDate = new Date(startDate.getTime());
         this.endDate = new Date(endDate.getTime());
         this.urgency = new Date(0L);
-=======
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.duration = endDate.getTime() - startDate.getTime();
->>>>>>> c42175fcd679070a16606ccd87afd8940903c1b2
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
