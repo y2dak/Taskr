@@ -46,7 +46,7 @@ public class Brain {
 
         //fill the schedule by setting the start/end dates of the tasks
         for (Task t : schedule.getTasks()) {
-            System.out.print("\t\"" + t.getName() + "\"\t");
+            if(t.getManual()) continue;
             for (Date d = new Date(begin.getTime()), e = addToDate(d, Calendar.MINUTE, (int) (timeInterval * 60)); e.before(end); d = addToDate(d, Calendar.MINUTE, (int) (timeInterval * 60)), e = addToDate(e, Calendar.MINUTE, (int) (timeInterval * 60))) {
                 if (schedule.isTimeSlotAvailable(d, e)) {
                     t.setStartDate(d);
