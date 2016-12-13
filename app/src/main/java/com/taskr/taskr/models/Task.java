@@ -40,8 +40,22 @@ public class Task implements Parcelable {
         this.urgency = urgency;
         this.endDate = urgency;
         Date date = new Date();
-        date.setYear(date.getYear() - 1900);
         this.startDate = date;
+        this.importance = importance;
+        this.manual = manual;
+        this.completion = completion;
+        this.notes = notes;
+        Random random = new Random();
+        this.id = random.nextInt();
+    }
+
+    public Task(final String name, final float duration, final float desirability, final Date urgency, final float importance, final boolean manual, final float completion, final String notes, final Date startDate, final Date endDate) {
+        this.name = name;
+        this.duration = duration;
+        this.desirability = desirability;
+        this.urgency = urgency;
+        this.endDate = endDate;
+        this.startDate = startDate;
         this.importance = importance;
         this.manual = manual;
         this.completion = completion;
@@ -54,6 +68,7 @@ public class Task implements Parcelable {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.duration = endDate.getTime() - startDate.getTime();
         this.manual = manual;
         this.completion = completion;
         this.notes = notes;
