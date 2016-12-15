@@ -12,17 +12,10 @@ import android.widget.TextView;
 import com.taskr.taskr.Globals;
 import com.taskr.taskr.R;
 import com.taskr.taskr.TaskDetailActivity;
-import com.taskr.taskr.fragments.TaskFragment.OnListFragmentInteractionListener;
-import com.taskr.taskr.models.DummyContent.DummyItem;
 import com.taskr.taskr.models.Task;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder> {
 
     private final List<Task> mValues;

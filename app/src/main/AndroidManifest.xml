@@ -24,12 +24,6 @@
             android:label="@string/title_activity_add_task"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity
             android:name=".TaskDetailActivity"
             android:label="@string/title_activity_details" />
         <activity android:name=".CalendarActivity">

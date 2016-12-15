@@ -1,7 +1,6 @@
 package com.taskr.taskr;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.taskr.taskr.models.OfflineDatabase;
+import com.taskr.taskr.models.Database;
 import com.taskr.taskr.models.Task;
 
 import java.text.DateFormat;
@@ -91,8 +90,8 @@ public class TaskDetailActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                OfflineDatabase offlineDatabase = new OfflineDatabase();
-                offlineDatabase.deleteTask(task.getId());
+                Database database = new Database();
+                database.deleteTask(task.getId());
                 finish();
             }
         })

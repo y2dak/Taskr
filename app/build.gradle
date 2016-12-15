@@ -33,6 +33,5 @@ dependencies {
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
-    compile 'org.testng:testng:6.9.6'
 }
 apply plugin: 'com.google.gms.google-services'
