@@ -67,20 +67,29 @@ public class Brain {
         return getPriority(index, tasks, 0.0f, new Date());
     }
     public float getPriority(int index, ArrayList<Task> tasks, float offset, Date refTime) {
-        Task t = tasks.get(index);
-        if (t.getManual()) return 2.0f;
+        Task task = tasks.get(index);
+        if (task.getManual()) return 2.0f;
 
-        final float des = t.getDesirability();
-        final float imp = t.getImportance();
-        final double time = urgWeight * getTimeAvailability(index, tasks, offset, refTime);
-        final double c = 1.0 - (t.getCompletion() + offset);
-        final double x = ((time > 0) ? (durWeight * timeNeeded(t, offset)) / time : 1.0f);
-        final double p0 = des * desWeight * c / 100.0;
-        final double p1 = 1.0 - Math.pow(1.0 - (des * c / 10.0), desWeight);
-        final double p2 = 1.0 - Math.pow(1.0 - (imp * c / 10.0), impWeight);
+        //TODO: INCORPORATE WEIGHTS INTO CURRENT EQUATION
+        //TODO: INCORPORATE OFFSET (PARAMETER) INTO CURRENT EQUATION
+
+        final double u = ((double)task.getUrgency().getTime())/((double)1000*60*60);
+        final double t = (1.0-task.getCompletion()) * task.getDuration();
+        final double d = task.getDesirability();
+        final double i = task.getImportance();
+
+        final double now = ((double)refTime.getTime())/((double)1000*60*60);
+        final double l = u - 10.0 * t;
+        final double r = u - t;
+        final double p0 = 0.0;
+        final double p1 = (d-1.0)/9.0;
+        final double p2 = (i-1.0)/9.0;
         final double p3 = 1.0;
 
-        return (float) ((x < 1.0) ? ((Math.pow(1.0 - x, 3.0) * p0) + (Math.pow(1.0 - x, 2.0) * x * 3.0 * p1) + ((1.0 - x) * Math.pow(x, 2.0) * 3.0 * p2) + (Math.pow(x, 3.0) * p3)) : 1.0);
+        double x = (now - l)/(r-l);
+        if(x < 0.0) return ((float)p0);
+        if(x > 1.0) return ((float)p3);
+        return ((float)(p0 * Math.pow(1.0-x,3.0) + 3.0 * x * p1 * Math.pow(1.0-x,2.0) + 3.0 * Math.pow(x,2.0) * p2 * (1.0-x) + Math.pow(x,3.0) * p3));
     }
 
     public int getNumParts(Task t, float timeInterval) {
